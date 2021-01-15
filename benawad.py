@@ -19,7 +19,10 @@ while True:
 	repos = [i.split("<")[0] for i in driver.page_source.split('<span class="text-bblack font-medium">')][1:]
 	for repo in repos:
 		if not repo in cache.keys():
-			cache[repo] = requests.get(f'https://api.github.com/repos/{repo}/git/trees/master?recursive=1').text
+			cache[repo] = requests.get(f'https://api.github.com/repos/{repo}/git/trees/master?recursive=1',auth=(
+			GITHUB_USERNAME,
+			GITHUB_TOKEN
+			)).text
 		if filename in cache[repo]:
 			for button in driver.find_elements_by_css_selector('.bg-sandy'):
 				if repo in button.text:
